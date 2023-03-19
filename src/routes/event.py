@@ -21,8 +21,10 @@ def create_event():
     ###
     data = request.json
 
-    newEvent = Event(name=data["name"], password=data["password"],
-                     email=data["email"], date_of_birth=data["date_of_birth"])
+    newEvent = Event(name=data["name"], is_adult=data["is_adult"],
+                     #  event_type=data["event_type"],
+                     teacher_name=data["teacher_name"],
+                     date=data["date"])
     db.session.add(newEvent)
     db.session.commit()
     return EventSchema().dump(newEvent)
@@ -50,10 +52,14 @@ def update_event(id):
     data = request.json
     if (data.get('name')):
         event.name = data['name']
-    if (data.get('email')):
-        event.email = data['email']
-    if (data.get('date_of_birth')):
-        event.date_of_birth = data['date_of_birth']
+    if (data.get('is_adult')):
+        event.is_adult = data['is_adult']
+    # if (data.get('event_type')):
+    #     event.event_type = data['event_type']
+    if (data.get('teacher_name')):
+        event.teacher_name = data['teacher_name']
+    if (data.get('date')):
+        event.date = data['date']
     db.session.commit()
 
     # return update event
