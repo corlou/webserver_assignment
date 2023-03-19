@@ -8,7 +8,7 @@ class Studio(db.Model):
     street_num = db.Column(db.String)
     street_name = db.Column(db.String, nullable=False)
     postcode = db.Column(db.Integer, nullable=False)
-    contact_num = db.Column(db.Integer, nullable=False)
+    contact_num = db.Column(db.String, nullable=False)
 
     def __init__(self, name=None, street_num=None, street_name=None, postcode=None, contact_num=None):
         self.name = name
