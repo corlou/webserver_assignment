@@ -59,7 +59,7 @@ def update_favourite(id):
 
 
 @api.route('/favourites/<id>', methods=["DELETE"])
-def delete_favouriteid():
+def delete_favourite(id):
     ###
     # Delete a favourite
     ###

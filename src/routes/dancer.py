@@ -61,7 +61,7 @@ def update_dancer(id):
 
 
 @api.route('/dancers/<id>', methods=["DELETE"])
-def delete_dancerid():
+def delete_dancer(id):
     ###
     # Delete a dancer profile
     ###
@@ -69,4 +69,3 @@ def delete_dancerid():
     db.session.delete(dancer)
     db.session.commit()
     return 'success'
-   

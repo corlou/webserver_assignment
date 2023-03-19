@@ -65,7 +65,7 @@ def update_studio(id):
 
 
 @api.route('/studios/<id>', methods=["DELETE"])
-def delete_studioid():
+def delete_studio(id):
     ###
     # Delete a studio profile
     ###

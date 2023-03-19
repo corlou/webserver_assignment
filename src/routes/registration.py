@@ -64,7 +64,7 @@ def update_registration(id):
 
 
 @api.route('/registrations/<id>', methods=["DELETE"])
-def delete_registrationid():
+def delete_registration(id):
     ###
     # Delete a registration profile
     ###

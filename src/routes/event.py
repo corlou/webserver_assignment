@@ -67,7 +67,7 @@ def update_event(id):
 
 
 @api.route('/events/<id>', methods=["DELETE"])
-def delete_eventid():
+def delete_event(id):
     ###
     # Delete a event profile
     ###
