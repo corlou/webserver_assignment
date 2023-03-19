@@ -9,8 +9,35 @@ dancer = {
     "name": "zoe",
     "password": "password",
     "email": "zoe@example.com",
-    "date_of_birth": "1990-01-01"
+    "date_of_birth": "1990-01-01",
+    "studio_id": None,
 }
+
+# A fake studio we will use to test with
+studio = {
+    "id": None,  # this will be set when we create a studio
+    "name": "Csolta",
+    "street_num": "123",
+    "street_name": "Moggill Road",
+    "postcode": 4068,
+    "contact_num": "0411222333",
+}
+
+
+def test_create_relations():
+    ###
+    # This sets up the db with the relations we need to test
+    # the favourites
+    ###
+    # Studio
+    studio_response = client.post(
+        "/studios", content_type="application/json", json=studio)
+    studio_response_json = json.loads(studio_response.data.decode("utf-8"))
+    # Populate the test entities
+    studio["id"] = studio_response_json["id"]
+    dancer["studio_id"] = studio["id"]
+    # Check that our test records got created
+    assert studio_response.status_code == 200
 
 
 def test_create_dancer():
@@ -72,7 +99,6 @@ def test_list_dancers():
 
     # Send to API
     response = client.get("/dancers")
-    print(response.data.decode("utf-8"))
     response_json = json.loads(response.data.decode("utf-8"))
 
     # Check response
@@ -92,3 +118,15 @@ def test_delete_dancer():
 
     # Check response
     assert response.status_code == 200
+
+
+def test_delete_relations():
+    ###
+    # This deletes the test relations we set up, so they don't
+    # remain in the db
+    ###
+    studio_response = client.delete(
+        "/studios/"+str(studio["id"]), content_type="application/json")
+
+    # Check that the deletes were successful
+    assert studio_response.status_code == 200

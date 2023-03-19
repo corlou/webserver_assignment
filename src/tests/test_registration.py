@@ -1,8 +1,18 @@
 import json
-from datetime import datetime
 from .app import create_test_client
+from models.event import EventType
 
 client = create_test_client()
+
+# A fake studio we will use to test with
+studio = {
+    "id": None,  # this will be set when we create a studio
+    "name": "Csolta",
+    "street_num": "123",
+    "street_name": "Moggill Road",
+    "postcode": 4068,
+    "contact_num": "0411222333",
+}
 
 # A fake dancer we will use to test with
 dancer = {
@@ -10,7 +20,8 @@ dancer = {
     "name": "zoe",
     "password": "password",
     "email": "zoe@example.com",
-    "date_of_birth": "1990-01-01"
+    "date_of_birth": "1990-01-01",
+    "studio_id": None
 }
 
 # A fake event we will use to test with
@@ -19,7 +30,8 @@ event = {
     "name": "tricks",
     "is_adult": True,
     "teacher_name": "Leeanne",
-    "date": "2023-05-05"
+    "date": "2023-05-05",
+    "event_type": EventType.COMPETITION_LOCAL
 }
 
 # A fake favourite we will use to test with
@@ -37,6 +49,11 @@ def test_create_relations():
     # This sets up the db with the relations we need to test
     # the registrations
     ###
+    # Studio
+    studio_response = client.post(
+        "/studios", content_type="application/json", json=studio)
+    studio_response_json = json.loads(studio_response.data.decode("utf-8"))
+    dancer["studio_id"] = studio_response_json["id"]
     # Dancer
     dancer_response = client.post(
         "/dancers", content_type="application/json", json=dancer)
@@ -46,6 +63,7 @@ def test_create_relations():
         "/events", content_type="application/json", json=event)
     event_response_json = json.loads(event_response.data.decode("utf-8"))
     # Populate the test entities
+    studio["id"] = studio_response_json["id"]
     dancer["id"] = dancer_response_json["id"]
     event["id"] = event_response_json["id"]
     registration["dancer_id"] = dancer["id"]
@@ -94,7 +112,6 @@ def test_list_registrations():
 
     # Send to API
     response = client.get("/registrations")
-    print(response.data.decode("utf-8"))
     response_json = json.loads(response.data.decode("utf-8"))
 
     # Check response
@@ -125,7 +142,10 @@ def test_delete_relations():
         "/dancers/"+str(dancer["id"]), content_type="application/json")
     event_response = client.delete(
         "/events/"+str(event["id"]), content_type="application/json")
+    studio_response = client.delete(
+        "/studios/"+str(studio["id"]), content_type="application/json")
 
     # Check that the deletes were successful
     assert dancer_response.status_code == 200
     assert event_response.status_code == 200
+    assert studio_response.status_code == 200

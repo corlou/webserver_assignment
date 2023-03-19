@@ -1,6 +1,7 @@
 import json
 from datetime import datetime
 from .app import create_test_client
+from models.event import EventType
 
 client = create_test_client()
 
@@ -10,7 +11,8 @@ event = {
     "name": "tricks",
     "is_adult": True,
     "teacher_name": "Leeanne",
-    "date": "2023-05-05"
+    "date": "2023-05-05",
+    "event_type": EventType.COMPETITION_LOCAL
 }
 
 
@@ -73,7 +75,6 @@ def test_list_events():
 
     # Send to API
     response = client.get("/events")
-    print(response.data.decode("utf-8"))
     response_json = json.loads(response.data.decode("utf-8"))
 
     # Check response

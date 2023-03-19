@@ -10,11 +10,12 @@ class Dancer(db.Model):
     date_of_birth = db.Column(db.Date, nullable=False)
     studio_id = db.Column(db.Integer, db.ForeignKey('studios.id'))
 
-    def __init__(self, name=None, password=None, email=None, date_of_birth=None):
+    def __init__(self, name=None, password=None, email=None, date_of_birth=None, studio_id=None):
         self.name = name
         self.password = password
         self.email = email
         self.date_of_birth = date_of_birth
+        self.studio_id = studio_id
 
 
 class DancerSchema(ma.SQLAlchemySchema):

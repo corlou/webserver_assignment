@@ -73,7 +73,6 @@ def test_list_studios():
 
     # Send to API
     response = client.get("/studios")
-    print(response.data.decode("utf-8"))
     response_json = json.loads(response.data.decode("utf-8"))
 
     # Check response

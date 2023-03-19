@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from app import db
 from models.event import Event, EventSchema
 
+
 api = Blueprint('event_api', __name__)
 
 
@@ -22,7 +23,7 @@ def create_event():
     data = request.json
 
     newEvent = Event(name=data["name"], is_adult=data["is_adult"],
-                     #  event_type=data["event_type"],
+                     event_type=data["event_type"],
                      teacher_name=data["teacher_name"],
                      date=data["date"])
     db.session.add(newEvent)
@@ -54,8 +55,8 @@ def update_event(id):
         event.name = data['name']
     if (data.get('is_adult')):
         event.is_adult = data['is_adult']
-    # if (data.get('event_type')):
-    #     event.event_type = data['event_type']
+    if (data.get('event_type')):
+        event.event_type = data['event_type']
     if (data.get('teacher_name')):
         event.teacher_name = data['teacher_name']
     if (data.get('date')):

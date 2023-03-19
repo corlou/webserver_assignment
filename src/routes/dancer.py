@@ -22,7 +22,7 @@ def create_dancer():
     data = request.json
 
     newDancer = Dancer(name=data["name"], password=data["password"],
-                       email=data["email"], date_of_birth=data["date_of_birth"])
+                       email=data["email"], date_of_birth=data["date_of_birth"], studio_id=data["studio_id"])
     db.session.add(newDancer)
     db.session.commit()
     return DancerSchema().dump(newDancer)
