@@ -4,17 +4,18 @@ from app import db, ma
 class Studio(db.Model):
     __tablename__ = "studios"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    password = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    date_of_birth = db.Column(db.Date, nullable=False)
-    # studio_id = db.Column(db.Integer, db.ForeignKey('studios.id'))
+    name = db.Column(db.String, nullable=False)
+    street_num = db.Column(db.String)
+    street_name = db.Column(db.String, nullable=False)
+    postcode = db.Column(db.Integer, nullable=False)
+    contact_num = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, name=None, password=None, email=None, date_of_birth=None):
+    def __init__(self, name=None, street_num=None, street_name=None, postcode=None, contact_num=None):
         self.name = name
-        self.password = password
-        self.email = email
-        self.date_of_birth = date_of_birth
+        self.street_num = street_num
+        self.street_name = street_name
+        self.postcode = postcode
+        self.contact_num = contact_num
 
 
 class StudioSchema(ma.SQLAlchemySchema):
@@ -23,5 +24,7 @@ class StudioSchema(ma.SQLAlchemySchema):
 
     id = ma.auto_field()
     name = ma.auto_field()
-    email = ma.auto_field()
-    date_of_birth = ma.auto_field()
+    street_num = ma.auto_field()
+    street_name = ma.auto_field()
+    postcode = ma.auto_field()
+    contact_num = ma.auto_field()

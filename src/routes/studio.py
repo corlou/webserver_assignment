@@ -21,8 +21,8 @@ def create_studio():
     ###
     data = request.json
 
-    newStudio = Studio(name=data["name"], password=data["password"],
-                       email=data["email"], date_of_birth=data["date_of_birth"])
+    newStudio = Studio(name=data["name"], street_num=data["street_num"],
+                       street_name=data["street_name"], postcode=data["postcode"], contact_num=data["contact_num"])
     db.session.add(newStudio)
     db.session.commit()
     return StudioSchema().dump(newStudio)
@@ -50,10 +50,14 @@ def update_studio(id):
     data = request.json
     if (data.get('name')):
         studio.name = data['name']
-    if (data.get('email')):
-        studio.email = data['email']
-    if (data.get('date_of_birth')):
-        studio.date_of_birth = data['date_of_birth']
+    if (data.get('street_num')):
+        studio.street_num = data['street_num']
+    if (data.get('street_name')):
+        studio.street_name = data['street_name']
+    if (data.get('postcode')):
+        studio.postcode = data['postcode']
+    if (data.get('contact_num')):
+        studio.contact_num = data['contact_num']
     db.session.commit()
 
     # return update studio
