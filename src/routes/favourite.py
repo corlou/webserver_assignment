@@ -10,7 +10,7 @@ def list_favourite():
     ###
     # List all favourites
     ###
-    favourite = Favourite.query.order_by(Favourite.name).all()
+    favourite = Favourite.query.order_by(Favourite.id).all()
     return jsonify(FavouriteSchema(many=True).dump(favourite))
 
 
@@ -21,8 +21,8 @@ def create_favourite():
     ###
     data = request.json
 
-    newFavourite = Favourite(name=data["name"], password=data["password"],
-                             email=data["email"], date_of_birth=data["date_of_birth"])
+    newFavourite = Favourite(
+        dancer_id=data["dancer_id"], event_id=data["event_id"])
     db.session.add(newFavourite)
     db.session.commit()
     return FavouriteSchema().dump(newFavourite)
@@ -40,7 +40,7 @@ def get_favourite(id):
 @api.route('/favourites/<id>', methods=["PUT"])
 def update_favourite(id):
     ###
-    # Update a favourite profile
+    # Update a favourite
     ###
 
     # find the favourite by the id
@@ -48,12 +48,10 @@ def update_favourite(id):
 
     # update any provided fields
     data = request.json
-    if (data.get('name')):
-        favourite.name = data['name']
-    if (data.get('email')):
-        favourite.email = data['email']
-    if (data.get('date_of_birth')):
-        favourite.date_of_birth = data['date_of_birth']
+    if (data.get('dancer_id')):
+        favourite.dancer_id = data['dancer_id']
+    if (data.get('event_id')):
+        favourite.event_id = data['event_id']
     db.session.commit()
 
     # return update favourite

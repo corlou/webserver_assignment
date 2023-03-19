@@ -4,17 +4,13 @@ from app import db, ma
 class Favourite(db.Model):
     __tablename__ = "favourites"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String)
-    password = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    date_of_birth = db.Column(db.Date, nullable=False)
-    # studio_id = db.Column(db.Integer, db.ForeignKey('studios.id'))
+    dancer_id = db.Column(db.Integer, db.ForeignKey('dancers.id'))
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'))
 
-    def __init__(self, name=None, password=None, email=None, date_of_birth=None):
-        self.name = name
-        self.password = password
-        self.email = email
-        self.date_of_birth = date_of_birth
+    def __init__(self, dancer_id=None, event_id=None):
+
+        self.dancer_id = dancer_id
+        self.event_id = event_id
 
 
 class FavouriteSchema(ma.SQLAlchemySchema):
@@ -22,6 +18,5 @@ class FavouriteSchema(ma.SQLAlchemySchema):
         model = Favourite
 
     id = ma.auto_field()
-    name = ma.auto_field()
-    email = ma.auto_field()
-    date_of_birth = ma.auto_field()
+    dancer_id = ma.auto_field()
+    event_id = ma.auto_field()

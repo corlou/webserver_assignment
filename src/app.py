@@ -1,5 +1,4 @@
 from flask import Flask
-
 from flask_marshmallow import Marshmallow
 from database import db
 
