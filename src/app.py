@@ -22,10 +22,12 @@ def create_app():
         import routes.dancer as dancer_routes
         import routes.studio as studio_routes
         import routes.event as event_routes
+        import routes.registration as event_registrations
         app.register_blueprint(root_routes.api)
         app.register_blueprint(dancer_routes.api)
         app.register_blueprint(studio_routes.api)
         app.register_blueprint(event_routes.api)
+        app.register_blueprint(event_registrations.api)
         # app.register_blueprint(registration_routes.api)
         # app.register_blueprint(favourite_routes.api)
 
