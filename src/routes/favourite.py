@@ -37,27 +37,6 @@ def get_favourite(id):
     return FavouriteSchema().dump(favourite)
 
 
-@api.route('/favourites/<id>', methods=["PUT"])
-def update_favourite(id):
-    ###
-    # Update a favourite
-    ###
-
-    # find the favourite by the id
-    favourite = db.get_or_404(Favourite, id)
-
-    # update any provided fields
-    data = request.json
-    if (data.get('dancer_id')):
-        favourite.dancer_id = data['dancer_id']
-    if (data.get('event_id')):
-        favourite.event_id = data['event_id']
-    db.session.commit()
-
-    # return update favourite
-    return FavouriteSchema().dump(favourite)
-
-
 @api.route('/favourites/<id>', methods=["DELETE"])
 def delete_favourite(id):
     ###
