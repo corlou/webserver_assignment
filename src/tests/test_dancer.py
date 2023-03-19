@@ -1,8 +1,7 @@
 import json
-from src.app import create_app
+from .app import create_test_client
 
-# Allows us to test our routes
-client = create_app().test_client()
+client = create_test_client()
 
 # A fake dancer we will use to test with
 dancer = {
