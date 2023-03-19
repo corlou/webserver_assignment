@@ -13,10 +13,6 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://admin:password@localhost:5433/polecalendar2"
     db.init_app(app)
 
-    # Create any tables that don't exist
-    with app.app_context():
-        db.create_all()
-
     # Initialise Marshmallow for serialisation
     ma.init_app(app)
 
@@ -32,6 +28,9 @@ def create_app():
         app.register_blueprint(event_routes.api)
         # app.register_blueprint(registration_routes.api)
         # app.register_blueprint(favourite_routes.api)
+
+        # Create any tables that don't exist
+        db.create_all()
 
     return app
 

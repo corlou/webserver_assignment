@@ -17,12 +17,12 @@ def list_events():
 @api.route('/events', methods=['POST'])
 def create_event():
     ###
-    # Create an event
+    # Create event
     ###
     data = request.json
 
-    newEvent = Event(name=data["title"], is_adult=data["adult"],
-                     event=data["type"], teacher_name=data["instructor"], date=data["date"])
+    newEvent = Event(name=data["name"], password=data["password"],
+                     email=data["email"], date_of_birth=data["date_of_birth"])
     db.session.add(newEvent)
     db.session.commit()
     return EventSchema().dump(newEvent)
@@ -31,7 +31,7 @@ def create_event():
 @api.route('/events/<id>', methods=["GET"])
 def get_event(id):
     ###
-    # Get the detials of an event
+    # Get an event profile
     ###
     event = db.get_or_404(Event, id)
     return EventSchema().dump(event)
@@ -40,7 +40,7 @@ def get_event(id):
 @api.route('/events/<id>', methods=["PUT"])
 def update_event(id):
     ###
-    # Update an event
+    # Update an event profile
     ###
 
     # find the event by the id
@@ -49,25 +49,21 @@ def update_event(id):
     # update any provided fields
     data = request.json
     if (data.get('name')):
-        event.name = data['title']
-    if (data.get('adult')):
-        event.adult = data['adult']
-    if (data.get('type')):
-        event.type = data['type']
-    if (data.get('instructor')):
-        event.instructor = data['instructor']
-    if (data.get('date')):
-        event.date = data['date']
+        event.name = data['name']
+    if (data.get('email')):
+        event.email = data['email']
+    if (data.get('date_of_birth')):
+        event.date_of_birth = data['date_of_birth']
     db.session.commit()
 
-    # return update dancer
+    # return update event
     return EventSchema().dump(event)
 
 
-@api.route('/dancers/<id>', methods=["DELETE"])
-def delete_event():
+@api.route('/events/<id>', methods=["DELETE"])
+def delete_eventid():
     ###
-    # Delete an event
+    # Delete a event profile
     ###
     event = db.get_or_404(Event, id)
     db.session.delete(event)
