@@ -10,7 +10,7 @@ def list_registrations():
     ###
     # List all registrations
     ###
-    registrations = Registration.query.order_by(Registration.name).all()
+    registrations = Registration.query.order_by(Registration.event_id).all()
     return jsonify(RegistrationSchema(many=True).dump(registrations))
 
 
@@ -21,8 +21,11 @@ def create_registration():
     ###
     data = request.json
 
-    newRegistration = Registration(name=data["name"], password=data["password"],
-                                   email=data["email"], date_of_birth=data["date_of_birth"])
+    newRegistration = Registration(
+        dancer_id=data["dancer_id"],
+        event_id=data["event_id"],
+        date_registered=data["date_registered"]
+    )
     db.session.add(newRegistration)
     db.session.commit()
     return RegistrationSchema().dump(newRegistration)
@@ -48,12 +51,12 @@ def update_registration(id):
 
     # update any provided fields
     data = request.json
-    if (data.get('name')):
-        registration.name = data['name']
-    if (data.get('email')):
-        registration.email = data['email']
-    if (data.get('date_of_birth')):
-        registration.date_of_birth = data['date_of_birth']
+    if (data.get('dancer_id')):
+        registration.dancer_id = data['dancer_id']
+    if (data.get('event_id')):
+        registration.event_id = data['event_id']
+    if (data.get('date_registered')):
+        registration.date_registered = data['date_registered']
     db.session.commit()
 
     # return update registration
