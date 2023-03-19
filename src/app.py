@@ -1,20 +1,13 @@
 from flask import Flask
-from flask_marshmallow import Marshmallow
 
+from flask_marshmallow import Marshmallow
 from database import db
 
-import routes.root as root_routes
-import routes.dancer as dancer_routes
-# import routes.studio as studio_routes
-import routes.event as event_routes
-# import routes.registration as registration_routes
-# import routes.favourite as favourite_routes
-
-ma = Marshmallow()
+app = Flask(__name__)
+ma = Marshmallow(app)
 
 
 def create_app():
-    app = Flask(__name__)
 
    # Initialise database
     app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://admin:password@localhost:5433/polecalendar2"
@@ -28,12 +21,17 @@ def create_app():
     ma.init_app(app)
 
     # Register routes
-    app.register_blueprint(root_routes.api)
-    app.register_blueprint(dancer_routes.api)
-    # app.register_blueprint(studio_routes.api)
-    app.register_blueprint(event_routes.api)
-    # app.register_blueprint(registration_routes.api)
-    # app.register_blueprint(favourite_routes.api)
+    with app.app_context():
+        import routes.root as root_routes
+        import routes.dancer as dancer_routes
+        import routes.studio as studio_routes
+        import routes.event as event_routes
+        app.register_blueprint(root_routes.api)
+        app.register_blueprint(dancer_routes.api)
+        app.register_blueprint(studio_routes.api)
+        app.register_blueprint(event_routes.api)
+        # app.register_blueprint(registration_routes.api)
+        # app.register_blueprint(favourite_routes.api)
 
     return app
 
