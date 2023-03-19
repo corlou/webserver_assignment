@@ -9,7 +9,7 @@ class Event(db.Model):
     # event_type = db.Column(db.Enum, unique=True, nullable=False)
     teacher_name = db.Column(db.String, nullable=False)
     date = db.Column(db.Date, nullable=False)
-    # studio_id = db.Column(db.Integer, db.ForeignKey('studios.id'))
+    studio_id = db.Column(db.Integer, db.ForeignKey('studios.id'))
 
     def __init__(self, name=None, is_adult=None, teacher_name=None, date=None):
         self.name = name

@@ -8,7 +8,7 @@ class Dancer(db.Model):
     password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     date_of_birth = db.Column(db.Date, nullable=False)
-    # studio_id = db.Column(db.Integer, db.ForeignKey('studios.id'))
+    studio_id = db.Column(db.Integer, db.ForeignKey('studios.id'))
 
     def __init__(self, name=None, password=None, email=None, date_of_birth=None):
         self.name = name

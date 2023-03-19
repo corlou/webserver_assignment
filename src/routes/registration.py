@@ -40,29 +40,6 @@ def get_registration(id):
     return RegistrationSchema().dump(registration)
 
 
-@api.route('/registrations/<id>', methods=["PUT"])
-def update_registration(id):
-    ###
-    # Update a registration profile
-    ###
-
-    # find the registration by the id
-    registration = db.get_or_404(Registration, id)
-
-    # update any provided fields
-    data = request.json
-    if (data.get('dancer_id')):
-        registration.dancer_id = data['dancer_id']
-    if (data.get('event_id')):
-        registration.event_id = data['event_id']
-    if (data.get('date_registered')):
-        registration.date_registered = data['date_registered']
-    db.session.commit()
-
-    # return update registration
-    return RegistrationSchema().dump(registration)
-
-
 @api.route('/registrations/<id>', methods=["DELETE"])
 def delete_registration(id):
     ###
